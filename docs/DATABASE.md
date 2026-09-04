@@ -1,0 +1,12 @@
+#MODEL
+Merchant
+User
+Product
+Order
+Payment
+AuditLog
+ManualReview
+RiskEvaluation
+Campaign
+IdempotencyKey
+Settings

@@ -1,153 +1,192 @@
 # PayPilot — AI Commerce Copilot
 
-PayPilot is an AI-powered commerce copilot that enables merchants to become
-transactable by AI buyers while keeping every money-related action
-Explainable, Bounded, Gated, and Auditable.
+ **AI-powered commerce infrastructure for AI buyers and merchant growth**
 
-## Buildathon Track
+PayPilot is an AI-powered commerce copilot that enables merchants to become **transactable by AI buyers** while keeping every money-related action **Explainable, Bounded, Gated, and Auditable**.
 
-AI Growth & Agentic Commerce
+The platform combines:
 
-## Core Capabilities
-
-- AI Commerce Copilot
-- Agent-readable public product catalog
-- Conversational shopping
+- AI-powered conversational shopping
+- Agent-readable product catalog
+- Multi-merchant product discovery
 - AI upsell and cross-sell recommendations
-- Policy and margin engine
-- AI risk assessment
-- Automatic order approval
-- Human exception / manual review
-- Razorpay test-mode checkout
+- Policy and margin validation
+- AI risk evaluation
+- Human-in-the-loop exception handling
+- Razorpay payment processing
 - Payment verification
-- AI Campaign Orchestrator
-- Campaign policy and margin validation
-- Merchant campaign approval
-- Explicit campaign activation
 - Complete audit trail
-- Graceful payment failure handling
+- AI Campaign Orchestrator
+- Campaign policy/margin validation
+- Merchant approval
+- Explicit campaign activation
+- Campaign audit events
+- Graceful failure handling
 
-## Architecture
+---
 
-AI Buyer
-    ↓
-Agent-readable Catalog
-    ↓
-Conversational Commerce
-    ↓
-Upsell / Cross-sell
-    ↓
-Order Engine
-    ↓
-Policy + Risk Engine
-    ↓
-Auto Approval / Human Review
-    ↓
-Payment Gate
-    ↓
-Razorpay
-    ↓
-Payment Verification
-    ↓
-Audit Trail
+# Buildathon Track
 
-Merchant
-    ↓
-AI Campaign Orchestrator
-    ↓
-Campaign Proposal
-    ↓
-Policy + Margin Validation
-    ↓
-Merchant Approval
-    ↓
-Campaign Activation
-    ↓
-Campaign Audit Trail
+## Track 01 — AI Growth & Agentic Commerce
 
-## Safety Model
+### Objective
 
-Every money-related action follows:
+Help merchants increase revenue and/or become transactable by AI buyers.
+
+PayPilot addresses both sides of this problem:
+
+### AI Buyer
+
+The AI Commerce Agent can:
+
+1. Understand the buyer's request
+2. Search the agent-readable catalog
+3. Recommend products
+4. Suggest bounded upsells and cross-sells
+5. Create an order
+6. Evaluate policy and risk
+7. Automatically approve low-risk orders
+8. Route exceptions to human review
+9. Open Razorpay checkout
+10. Verify payment
+11. Record the complete transaction lifecycle
+
+### Merchant
+
+The AI Campaign Orchestrator can:
+
+1. Convert a natural-language business goal into a campaign proposal
+2. Select relevant products
+3. Propose a promotion strategy
+4. Validate policy and minimum margin
+5. Request merchant approval
+6. Keep activation as a separate gated step
+7. Activate only after explicit authorization
+8. Record campaign lifecycle events in the audit trail
+
+---
+
+#  Core Design Principle
+
+Every money-related action in PayPilot follows:
+
+## Explainable + Bounded + Gated + Auditable
 
 ### Explainable
 
 PayPilot explains:
 
-- Why an order was approved or rejected
-- Requested and approved discount
-- Risk level
-- Campaign selection
-- Policy result
-- Margin result
-- Activation decision
+- Why a product was recommended
+- Why an order was approved
+- Why an order requires manual review
+- Why a campaign was proposed
+- Why a discount passed or failed validation
+- Why a campaign can or cannot be activated
+- What changed during activation
 
 ### Bounded
 
-The AI operates within:
+AI actions are constrained by explicit rules.
 
-- Merchant discount policies
-- Minimum margin requirements
-- Risk controls
-- Payment gates
-- Campaign validation rules
+Examples:
+
+- Discount policy
+- Minimum-margin requirements
+- Risk thresholds
+- Payment limits
+- Upsell price limits
+- Cross-sell price limits
+- Maximum recommendation count
+- Campaign validation requirements
 
 ### Gated
 
-Money-related actions require appropriate authorization:
+The AI does not receive unrestricted authority over money movement.
 
-- Automatic approval when policy permits
-- Human merchant approval for exceptions
-- Explicit campaign activation
-- Buyer confirmation for purchases
+Examples:
+
+- Buyer confirmation is required before purchasing
+- High-risk orders can require merchant approval
+- Campaign activation is a separate explicit phase
+- Razorpay payment happens through the payment gate
+- Campaign price changes occur only during explicit activation
 
 ### Auditable
 
-Important actions are recorded in the audit trail:
+Important actions generate audit events.
+
+Examples:
 
 - Order decisions
-- Manual reviews
-- Payment lifecycle
-- Campaign proposal
+- Manual-review decisions
+- Payment creation
+- Razorpay order creation
+- Payment capture
+- Campaign proposal creation
 - Campaign validation
-- Merchant approval
+- Merchant campaign approval
 - Campaign activation
 
-## Campaign Lifecycle
+---
 
-Phase 1:
-Campaign Proposal
+#  Architecture
 
-↓
+```text
+                         ┌──────────────────────┐
+                         │      Merchant        │
+                         └──────────┬───────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │ AI Campaign          │
+                         │ Orchestrator         │
+                         └──────────┬───────────┘
+                                    │
+                    ┌───────────────▼───────────────┐
+                    │ Campaign Proposal             │
+                    │ Products / Strategy / Discount│
+                    └───────────────┬───────────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │ Policy + Margin      │
+                         │ Validation            │
+                         └──────────┬───────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │ Merchant Approval    │
+                         └──────────┬───────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │ Explicit Activation  │
+                         └──────────┬───────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │ Campaign Active      │
+                         └──────────┬───────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │ Audit Trail          │
+                         └──────────────────────┘
 
-Phase 2:
-Policy + Margin Validation
+                         
+                          #Campaign Lifecycle
 
-↓
-
-Phase 3:
-Merchant Approval
-
-↓
-
-Phase 4:
-Campaign Activation
-
-No campaign is activated before the required gates are passed.
-
-## Technology
-
-- Python
-- FastAPI
-- SQLAlchemy
-- React
-- JavaScript
-- Razorpay Test Mode
-- Gemini / AI model integration
-
-## Running Locally
-
-### Backend
-
-```bash
-cd backend
-python -m venv venv
+                          Phase 1
+                          DRAFT
+                            │
+                            ▼
+                          Phase 2
+                      POLICY_APPROVED
+                            │
+                            ▼
+                          Phase 3
+                      MERCHANT_APPROVED
+                             │
+                             ▼
+                           Phase 4
+                            ACTIVE
