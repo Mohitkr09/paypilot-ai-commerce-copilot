@@ -14,3 +14,4 @@ passlib[bcrypt]
 google-generativeai
 python-multipart
 langgraph
+google-genai
