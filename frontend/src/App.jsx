@@ -1210,14 +1210,14 @@ function Navigation() {
             )}
           />
 
-          <NavItem
+          {/* <NavItem
             to="/merchant-agent"
             icon={Bot}
             label="AI Commerce Agent"
             active={isActive(
               "/merchant-agent"
             )}
-          />
+          /> */}
 
           <NavItem
   to="/campaigns"

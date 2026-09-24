@@ -437,11 +437,11 @@ function DetailItem({
   muted = false,
 }) {
   return (
-    <div className="rounded-xl border border-slate-100 bg-slate-50 p-3">
+    <div className="group rounded-xl border border-slate-200/80 bg-white p-3.5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition hover:border-slate-300 hover:shadow-sm">
       <div className="flex items-center gap-2">
         <Icon
           size={15}
-          className="text-slate-400"
+          className="text-slate-400 transition group-hover:text-blue-500"
         />
 
         <span className="text-[11px] font-medium uppercase tracking-wide text-slate-400">
@@ -475,11 +475,11 @@ function Section({
   return (
     <div className="mt-5">
       <div className="mb-3 flex items-center gap-2">
-        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-100 text-slate-500">
+        <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm">
           <Icon size={15} />
         </div>
 
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+        <h3 className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
           {title}
         </h3>
       </div>
@@ -3854,345 +3854,420 @@ export default function Agent() {
   // =======================================================
 
   return (
-    <div className="min-h-screen bg-slate-50 p-4 sm:p-6 lg:p-8">
-      <div className="mx-auto max-w-[1200px]">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#eef2ff] via-[#f8f7ff] to-[#ecfeff] px-3 py-4 text-slate-900 sm:px-6 sm:py-6 lg:px-8">
+      {/* Soft ambient background — UI only */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-blue-400/20 blur-3xl" />
+        <div className="absolute right-[-90px] top-24 h-80 w-80 rounded-full bg-violet-400/20 blur-3xl" />
+        <div className="absolute bottom-[-120px] left-1/3 h-96 w-96 rounded-full bg-cyan-300/15 blur-3xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.035)_1px,transparent_1px)] bg-[size:32px_32px]" />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-[1380px]">
 
         {/* =================================================
-            PAGE HEADER
+            AGENT HEADER
         ================================================= */}
+        <div className="mb-5 overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-[0_12px_40px_rgba(15,23,42,0.06)]">
+          <div className="relative overflow-hidden px-5 py-5 sm:px-7 sm:py-6">
+            <div className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-blue-100/50 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 left-1/3 h-48 w-48 rounded-full bg-violet-100/40 blur-3xl" />
 
-        <div className="mb-6">
-          <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-white shadow-lg shadow-blue-600/20">
-              <Bot size={25} />
+            <div className="relative flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+              <div className="flex items-start gap-4">
+                <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-xl shadow-slate-900/15">
+                  <Bot size={28} />
+                  <span className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-[3px] border-white bg-emerald-500" />
+                </div>
+
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <h1 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
+                      PayPilot AI
+                    </h1>
+
+                    <span className="rounded-full border border-violet-200 bg-violet-50 px-2.5 py-1 text-[10px] font-extrabold tracking-wide text-violet-700">
+                      AGENTIC COMMERCE
+                    </span>
+
+                    <span className="flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[10px] font-bold text-emerald-700">
+                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                      ONLINE
+                    </span>
+                  </div>
+
+                  <p className="mt-1.5 max-w-2xl text-sm leading-6 text-slate-500">
+                    Autonomous commerce orchestration across catalog, policy,
+                    risk and payment gates — with a human-controlled money boundary.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap lg:justify-end">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5">
+                  <p className="text-[9px] font-extrabold uppercase tracking-[0.14em] text-slate-400">
+                    Agent
+                  </p>
+                  <p className="mt-0.5 flex items-center gap-1.5 text-xs font-bold text-slate-700">
+                    <Activity size={13} className="text-blue-500" />
+                    Orchestrating
+                  </p>
+                </div>
+
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5">
+                  <p className="text-[9px] font-extrabold uppercase tracking-[0.14em] text-slate-400">
+                    Governance
+                  </p>
+                  <p className="mt-0.5 flex items-center gap-1.5 text-xs font-bold text-slate-700">
+                    <LockKeyhole size={13} className="text-amber-500" />
+                    Human gated
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* AGENT WORKFLOW */}
+          <div className="border-t border-indigo-100/70 bg-gradient-to-r from-indigo-50/80 via-white/70 to-cyan-50/70 px-5 py-4 sm:px-7">
+            <div className="mb-3 flex items-center justify-between">
+              <div>
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-slate-400">
+                  Agent workflow
+                </p>
+                <p className="mt-0.5 text-xs text-slate-500">
+                  Every transaction passes through bounded decision gates.
+                </p>
+              </div>
+
+              <span className="hidden items-center gap-1.5 text-[10px] font-bold text-slate-400 sm:flex">
+                <ShieldCheck size={13} />
+                Policy-controlled
+              </span>
             </div>
 
-            <div>
-              <div className="flex flex-wrap items-center gap-3">
-                <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-                  AI Commerce Agent
-                </h1>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+              {[
+                ["01", "Intent", Bot],
+                ["02", "Catalog", Store],
+                ["03", "Policy", CheckCircle2],
+                ["04", "Risk", ShieldCheck],
+                ["05", "Human Gate", UserCheck],
+                ["06", "Payment", LockKeyhole],
+              ].map(([step, label, Icon], index) => (
+                <div key={label} className="relative flex items-center gap-2.5 rounded-xl border border-indigo-100/80 bg-white/90 px-3 py-2.5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-md">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-900 text-white">
+                    <Icon size={13} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[9px] font-bold text-slate-400">{step}</p>
+                    <p className="truncate text-[11px] font-bold text-slate-700">{label}</p>
+                  </div>
+                  {index < 5 && (
+                    <ArrowRight size={12} className="absolute -right-2.5 z-10 hidden text-slate-300 lg:block" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
 
-                <span className="rounded-full border border-blue-200 bg-blue-50 px-2.5 py-1 text-[10px] font-bold text-blue-600 sm:text-xs">
-                  PHASE 8C
+        {/* =================================================
+            GOVERNANCE
+        ================================================= */}
+        <div className="mb-5 overflow-hidden rounded-2xl border border-amber-200/80 bg-gradient-to-r from-amber-50 to-orange-50 shadow-sm">
+          <div className="flex items-start gap-3 px-4 py-3.5 sm:px-5">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-amber-200 bg-white text-amber-600 shadow-sm">
+              <ShieldCheck size={18} />
+            </div>
+
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="text-sm font-extrabold text-amber-900">
+                  Human confirmation required
+                </p>
+                <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wide text-amber-700">
+                  Safety Boundary
                 </span>
               </div>
 
-              <p className="mt-1 text-sm text-slate-500">
-                Agentic commerce decisions with
-                policy gates, risk controls, and
-                human-authorized payments.
+              <p className="mt-1 text-xs leading-5 text-amber-800/80">
+                PayPilot can evaluate orders and continue approved workflows, but
+                the AI cannot authorize money movement. Razorpay opens only after
+                the required human-controlled gate.
               </p>
             </div>
           </div>
         </div>
 
-
-        {/* =================================================
-            GOVERNANCE
-        ================================================= */}
-
-        <div className="mb-5 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4">
-          <ShieldCheck
-            size={19}
-            className="mt-0.5 shrink-0 text-amber-600"
-          />
-
-          <div>
-            <p className="text-sm font-semibold text-amber-800">
-              Human confirmation required
-            </p>
-
-            <p className="mt-1 text-xs leading-5 text-amber-700">
-              PayPilot may evaluate and approve
-              an order according to merchant
-              policy, but the AI cannot authorize
-              money movement. Razorpay opens only
-              after explicit human confirmation.
-            </p>
-          </div>
-        </div>
-
-
         {/* =================================================
             CHAT PANEL
         ================================================= */}
-
-        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-3xl border border-white/70 bg-white/90 shadow-[0_24px_70px_rgba(79,70,229,0.14)] backdrop-blur-xl">
 
           {/* HEADER */}
-
-          <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
+          <div className="flex flex-col gap-3 border-b border-indigo-100 bg-gradient-to-r from-white via-indigo-50/50 to-cyan-50/50 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
-                <Bot size={18} />
+              <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-slate-950 text-white shadow-md">
+                <Bot size={19} />
+                <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-white bg-emerald-500" />
               </div>
 
               <div>
-                <p className="text-sm font-bold text-slate-800">
-                  PayPilot Commerce Copilot
-                </p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="text-sm font-extrabold text-slate-900">
+                    PayPilot Commerce Copilot
+                  </p>
+                  <span className="rounded-full bg-violet-50 px-2 py-0.5 text-[9px] font-extrabold text-violet-700">
+                    AGENT
+                  </span>
+                </div>
 
-                <p className="text-xs text-slate-400">
-                  AI commerce • marketplace catalog • policy-gated checkout
+                <p className="mt-0.5 text-[11px] text-slate-400">
+                  Marketplace intelligence · policy reasoning · risk controls · secure checkout
                 </p>
               </div>
             </div>
 
-            <span className="flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-600">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            <div className="flex items-center gap-2">
+              <span className="hidden rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[10px] font-bold text-slate-500 sm:inline-flex">
+                Merchant #{MERCHANT_ID}
+              </span>
 
-              Ready
-            </span>
+              <span className="flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-[10px] font-extrabold text-emerald-700">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                Ready
+              </span>
+            </div>
           </div>
-
 
           {/* =================================================
               MESSAGES
           ================================================= */}
-
-          <div className="min-h-[520px] max-h-[720px] space-y-6 overflow-y-auto bg-slate-50/60 p-4 sm:p-6">
+          <div className="min-h-[560px] max-h-[760px] space-y-7 overflow-y-auto bg-[radial-gradient(circle_at_15%_10%,_rgba(99,102,241,0.14),_transparent_30%),radial-gradient(circle_at_85%_20%,_rgba(6,182,212,0.10),_transparent_28%),linear-gradient(135deg,#f8faff,#f5f3ff_50%,#f0fdff)] p-3 sm:p-6">
 
             {/* EMPTY */}
-
             {messages.length === 0 && (
-              <div className="flex min-h-[450px] items-center justify-center">
-                <div className="max-w-lg text-center">
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
-                    <Bot size={30} />
-                  </div>
-
-                  <h2 className="mt-5 text-xl font-bold text-slate-800">
-                    Ask the Commerce Agent
-                  </h2>
-
-                  <p className="mt-2 text-sm leading-6 text-slate-500">
-                    Ask about products,
-                    inventory, discounts, or ask
-                    PayPilot to create an order
-                    decision.
-                  </p>
-
-                  <div className="mt-6 flex flex-wrap justify-center gap-2">
-                    {quickQuestions.map(
-                      (question) => (
-                        <button
-                          key={
-                            question
-                          }
-                          type="button"
-                          onClick={() =>
-                            setMessage(
-                              question
-                            )
-                          }
-                          className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-600 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600"
-                        >
-                          {question}
-                        </button>
-                      )
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-
-
-            {/* MESSAGE LIST */}
-
-            {messages.map(
-              (item, index) => {
-                const isUser =
-                  item.role ===
-                  "user";
-
-                return (
-                  <div
-                    key={index}
-                    className={`flex gap-3 ${
-                      isUser
-                        ? "justify-end"
-                        : "justify-start"
-                    }`}
-                  >
-                    {!isUser && (
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm">
-                        <Bot size={18} />
-                      </div>
-                    )}
-
-                    <div
-                      className={
-                        isUser
-                          ? "max-w-[80%]"
-                          : "w-full max-w-[900px]"
-                      }
-                    >
-                      {isUser ? (
-                        <div className="flex justify-end gap-3">
-                          <div className="rounded-2xl rounded-br-md bg-blue-600 px-4 py-3 text-white shadow-sm">
-                            <p className="whitespace-pre-line text-sm leading-6">
-                              {safeString(
-                                item.content
-                              )}
-                            </p>
-                          </div>
-
-                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-200 text-slate-600">
-                            <User
-                              size={18}
-                            />
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="rounded-2xl rounded-tl-md border border-slate-200 bg-white p-5 shadow-sm">
-                          <AgentResponse
-                            data={
-                              item.content
-                            }
-                            onRecommend={
-                              handleRecommendProduct
-                            }
-                            recommendationLoadingId={
-                              recommendationLoadingId
-                            }
-                            recommendationError={
-                              recommendationError
-                            }
-                            growthRecommendation={
-                              growthRecommendation
-                            }
-                            onChooseRecommendation={
-                              handleChooseRecommendation
-                            }
-                            onChooseProduct={
-                              handleChooseProduct
-                            }
-                          />
-                        </div>
-                      )}
+              <div className="flex min-h-[500px] items-center justify-center">
+                <div className="w-full max-w-3xl text-center">
+                  <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl border border-indigo-100 bg-gradient-to-br from-indigo-600 via-violet-600 to-cyan-500 text-white shadow-[0_16px_40px_rgba(79,70,229,0.25)]">
+                    <div className="relative">
+                      <Bot size={36} />
+                      <span className="absolute -bottom-1 -right-2 h-3.5 w-3.5 rounded-full border-[3px] border-white bg-emerald-500" />
                     </div>
                   </div>
-                );
-              }
-            )}
 
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-blue-600">
+                    AI Commerce Orchestrator
+                  </p>
 
-            {/* LOADING */}
+                  <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
+                    What can I execute for you?
+                  </h2>
 
-            {loading && (
-              <div className="flex items-start gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white">
-                  <Bot size={18} />
-                </div>
+                  <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-500">
+                    Ask about products, inventory, recommendations, discounts,
+                    or start a purchase workflow. PayPilot will route the request
+                    through the appropriate agentic gates.
+                  </p>
 
-                <div className="flex items-center gap-2 rounded-2xl rounded-tl-md border border-slate-200 bg-white px-4 py-3 shadow-sm">
-                  <Loader2
-                    size={17}
-                    className="animate-spin text-blue-600"
-                  />
+                  <div className="mt-7 grid gap-2 text-left sm:grid-cols-2">
+                    {quickQuestions.map((question, index) => (
+                      <button
+                        key={question}
+                        type="button"
+                        onClick={() => setMessage(question)}
+                        className="group flex items-center gap-3 rounded-2xl border border-indigo-100 bg-white/90 p-3.5 text-left shadow-sm backdrop-blur transition hover:-translate-y-1 hover:border-indigo-300 hover:bg-white hover:shadow-lg"
+                      >
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-[10px] font-extrabold text-blue-600 transition group-hover:bg-blue-600 group-hover:text-white">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="min-w-0 flex-1 text-xs font-semibold leading-5 text-slate-600 group-hover:text-slate-900">
+                          {question}
+                        </span>
+                        <ArrowRight size={14} className="shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-blue-500" />
+                      </button>
+                    ))}
+                  </div>
 
-                  <span className="text-sm text-slate-500">
-                    Agent is evaluating the request...
-                  </span>
+                  <div className="mt-6 flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] font-semibold text-slate-400">
+                    <span className="flex items-center gap-1.5">
+                      <CheckCircle2 size={12} className="text-emerald-500" />
+                      Policy controlled
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <ShieldCheck size={12} className="text-blue-500" />
+                      Risk evaluated
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <LockKeyhole size={12} className="text-amber-500" />
+                      Human gated
+                    </span>
+                  </div>
                 </div>
               </div>
             )}
 
-            <div
-              ref={
-                messagesEndRef
-              }
-            />
+            {/* MESSAGE LIST */}
+            {messages.map((item, index) => {
+              const isUser = item.role === "user";
+
+              return (
+                <div
+                  key={index}
+                  className={`flex gap-3 ${isUser ? "justify-end" : "justify-start"}`}
+                >
+                  {!isUser && (
+                    <div className="relative mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-950 text-white shadow-md">
+                      <Bot size={17} />
+                      <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-slate-50 bg-emerald-500" />
+                    </div>
+                  )}
+
+                  <div className={isUser ? "max-w-[88%] sm:max-w-[75%]" : "w-full max-w-[980px]"}>
+                    {isUser ? (
+                      <div className="flex items-end justify-end gap-2.5">
+                        <div>
+                          <p className="mb-1.5 mr-1 text-right text-[9px] font-bold uppercase tracking-wider text-slate-400">
+                            You
+                          </p>
+                          <div className="rounded-2xl rounded-br-md bg-slate-950 px-4 py-3.5 text-white shadow-lg shadow-slate-900/10">
+                            <p className="whitespace-pre-line text-sm leading-6">
+                              {safeString(item.content)}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm">
+                          <User size={15} />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="overflow-hidden rounded-2xl rounded-tl-md border border-slate-200 bg-white shadow-[0_5px_20px_rgba(15,23,42,0.05)]">
+                        <div className="flex items-center gap-2 border-b border-slate-100 bg-slate-50/80 px-4 py-2.5">
+                          <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                          <span className="text-[9px] font-extrabold uppercase tracking-[0.16em] text-slate-400">
+                            PayPilot Agent Response
+                          </span>
+                          <span className="ml-auto text-[9px] font-semibold text-slate-300">
+                            Decision engine
+                          </span>
+                        </div>
+
+                        <div className="p-4 sm:p-5">
+                          <AgentResponse
+                            data={item.content}
+                            onRecommend={handleRecommendProduct}
+                            recommendationLoadingId={recommendationLoadingId}
+                            recommendationError={recommendationError}
+                            growthRecommendation={growthRecommendation}
+                            onChooseRecommendation={handleChooseRecommendation}
+                            onChooseProduct={handleChooseProduct}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* LOADING */}
+            {loading && (
+              <div className="flex items-start gap-3">
+                <div className="relative mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-950 text-white shadow-md">
+                  <Bot size={17} />
+                  <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-slate-50 bg-blue-500" />
+                </div>
+
+                <div className="w-full max-w-[680px] overflow-hidden rounded-2xl rounded-tl-md border border-slate-200 bg-white shadow-sm">
+                  <div className="flex items-center gap-3 border-b border-slate-100 bg-slate-50/80 px-4 py-3">
+                    <Loader2 size={16} className="animate-spin text-blue-600" />
+                    <div>
+                      <p className="text-xs font-bold text-slate-700">
+                        Agent is evaluating the request
+                      </p>
+                      <p className="text-[10px] text-slate-400">
+                        Routing intent → policy → risk → authorization gates
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 p-3 sm:grid-cols-4">
+                    {["Intent", "Policy", "Risk", "Gate"].map((stage, index) => (
+                      <div key={stage} className="flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-2">
+                        <span className={`h-1.5 w-1.5 rounded-full ${index === 0 ? "animate-pulse bg-blue-500" : "bg-slate-200"}`} />
+                        <span className="text-[10px] font-bold text-slate-400">{stage}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div ref={messagesEndRef} />
           </div>
 
-
-          {/* =================================================
-              ERROR
-          ================================================= */}
-
+          {/* ERROR */}
           {error && (
-            <div className="border-t border-red-100 bg-red-50 px-5 py-4 sm:px-6">
+            <div className="border-t border-red-100 bg-red-50/80 px-4 py-3.5 sm:px-6">
               <div className="flex items-start gap-3">
-                <AlertCircle
-                  size={18}
-                  className="mt-0.5 shrink-0 text-red-500"
-                />
-
-                <div>
-                  <p className="text-sm font-bold text-red-700">
-                    Agent Request Failed
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-white text-red-500 shadow-sm">
+                  <AlertCircle size={17} />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs font-extrabold uppercase tracking-wide text-red-700">
+                    Agent request failed
                   </p>
-
-                  <p className="mt-1 whitespace-pre-wrap break-words text-sm leading-5 text-red-600">
-                    {safeString(
-                      error,
-                      "Unable to communicate with PayPilot."
-                    )}
+                  <p className="mt-1 whitespace-pre-wrap break-words text-xs leading-5 text-red-600">
+                    {safeString(error, "Unable to communicate with PayPilot.")}
                   </p>
                 </div>
               </div>
             </div>
           )}
 
+          {/* INPUT */}
+          <form onSubmit={sendMessage} className="border-t border-indigo-100 bg-gradient-to-r from-white via-indigo-50/30 to-cyan-50/30 p-3 sm:p-4">
+            <div className="rounded-2xl border border-indigo-100 bg-white/90 p-2 shadow-[0_8px_25px_rgba(79,70,229,0.08)] backdrop-blur">
+              <div className="flex items-center gap-2">
+                <div className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-slate-500 shadow-sm sm:flex">
+                  <Bot size={17} />
+                </div>
 
-          {/* =================================================
-              INPUT
-          ================================================= */}
+                <input
+                  type="text"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  disabled={loading}
+                  placeholder="Ask PayPilot to browse, recommend, or start a purchase..."
+                  className="h-11 min-w-0 flex-1 rounded-xl border-0 bg-transparent px-2 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:ring-0 disabled:cursor-not-allowed disabled:opacity-60"
+                />
 
-          <form
-            onSubmit={
-              sendMessage
-            }
-            className="border-t border-slate-200 bg-white p-4"
-          >
-            <div className="flex items-center gap-3">
-              <input
-                type="text"
-                value={message}
-                onChange={(e) =>
-                  setMessage(
-                    e.target.value
-                  )
-                }
-                disabled={loading}
-                placeholder="Example: I want to buy 1 Mechanical Keyboard"
-                className="h-12 flex-1 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:opacity-60"
-              />
-
-              <button
-                type="submit"
-                disabled={
-                  loading ||
-                  !message.trim()
-                }
-                className="flex h-12 items-center gap-2 rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {loading ? (
-                  <Loader2
-                    size={18}
-                    className="animate-spin"
-                  />
-                ) : (
-                  <Send size={18} />
-                )}
-
-                <span className="hidden sm:inline">
-                  Send
-                </span>
-              </button>
+                <button
+                  type="submit"
+                  disabled={loading || !message.trim()}
+                  className="flex h-11 shrink-0 items-center gap-2 rounded-xl bg-slate-950 px-4 text-sm font-bold text-white shadow-lg shadow-slate-900/10 transition hover:-translate-y-0.5 hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+                >
+                  {loading ? (
+                    <Loader2 size={17} className="animate-spin" />
+                  ) : (
+                    <Send size={17} />
+                  )}
+                  <span className="hidden sm:inline">
+                    {loading ? "Thinking" : "Send"}
+                  </span>
+                </button>
+              </div>
             </div>
 
-            <div className="mt-2 flex items-center justify-between px-1">
-              <p className="text-[11px] text-slate-400">
-                Agent decision → Policy/Risk Gate
-                → Human Confirmation → Razorpay
-                → Backend Verification
+            <div className="mt-2.5 flex flex-col gap-1 px-1 sm:flex-row sm:items-center sm:justify-between">
+              <p className="flex items-center gap-1.5 text-[10px] font-medium text-slate-400">
+                <LockKeyhole size={11} />
+                Agent decision → Policy/Risk Gate → Human Confirmation → Razorpay → Verification
               </p>
 
-              <p className="hidden text-[11px] text-slate-400 sm:block">
-                Merchant ID{" "}
-                {MERCHANT_ID}
+              <p className="text-[10px] font-semibold text-slate-400">
+                Merchant #{MERCHANT_ID}
               </p>
             </div>
           </form>

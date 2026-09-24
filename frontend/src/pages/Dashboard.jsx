@@ -550,7 +550,7 @@ function Dashboard() {
               </div>
 
               <h1 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-                Payment Overview
+                Dashboard
               </h1>
 
               <p className="mt-2 text-sm text-slate-500 sm:text-base">
