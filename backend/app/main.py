@@ -6,10 +6,8 @@ from dotenv import load_dotenv
 #
 # Loads variables from backend/.env
 #
-# Example:
-#
-# GEMINI_API_KEY=your_gemini_api_key
-# GEMINI_MODEL=gemini-3.7-flash
+# Render environment variables will also be available
+# automatically in production.
 #
 # =========================================================
 
@@ -51,14 +49,13 @@ from app.models import (
     AuditLog,
     Settings,
     RiskEvaluation,
-    Campaign,                 # NEW - Phase 1 Campaign Orchestrator
+    Campaign,
 )
 
 
 # =========================================================
 # ROUTES
 # =========================================================
-
 
 # ---------------------------------------------------------
 # Product API
@@ -162,15 +159,6 @@ from app.routes.risk_analytics import (
 # ---------------------------------------------------------
 # Risk Evaluation
 # ---------------------------------------------------------
-#
-# Evaluates individual orders using RiskService.
-#
-# Endpoints:
-#
-# POST /risk-evaluations/{order_id}
-# GET  /risk-evaluations/{order_id}
-#
-# ---------------------------------------------------------
 
 from app.routes.risk_evaluation import (
     router as risk_evaluation_router,
@@ -198,26 +186,6 @@ from app.routes.events import (
 # =========================================================
 # ANALYTICS
 # =========================================================
-#
-# PayPilot dashboard analytics.
-#
-# Endpoints:
-#
-# GET /analytics/overview
-# GET /analytics/orders
-# GET /analytics/risk
-# GET /analytics/manual-reviews
-# GET /analytics/payments
-# GET /analytics/discounts
-# GET /analytics/inventory
-# GET /analytics/daily
-# GET /analytics/order-trend
-# GET /analytics/revenue-trend
-# GET /analytics/merchants
-# GET /analytics/recent-activity
-# GET /analytics/dashboard
-#
-# =========================================================
 
 from app.routes.analytics import (
     router as analytics_router,
@@ -226,20 +194,6 @@ from app.routes.analytics import (
 
 # =========================================================
 # AI COMMERCE AGENT
-# =========================================================
-#
-# Existing commerce assistant.
-#
-# Endpoints:
-#
-# GET  /commerce/health
-# GET  /commerce/catalog
-# GET  /commerce/catalog/context
-# GET  /commerce/search
-# GET  /commerce/products/{product_id}
-# GET  /commerce/recommend
-# POST /commerce/chat
-#
 # =========================================================
 
 from app.routes.commerce import (
@@ -250,38 +204,6 @@ from app.routes.commerce import (
 # =========================================================
 # AI ORDER / PAYPILOT AGENT
 # =========================================================
-#
-# Conversational PayPilot order agent.
-#
-# Endpoint:
-#
-# POST /agent/chat
-#
-# Flow:
-#
-# User message
-#      ↓
-# AgentService
-#      ↓
-# Product detection
-#      ↓
-# OrderCreate
-#      ↓
-# create_order_internal()
-#      ↓
-# LangGraph
-#      ↓
-# Policy Agent
-#      ↓
-# Decision Agent
-#      ↓
-# Risk Agent
-#      ↓
-# Payment Gate
-#      ↓
-# Audit Agent
-#
-# =========================================================
 
 from app.routes.agent import (
     router as agent_router,
@@ -290,39 +212,6 @@ from app.routes.agent import (
 
 # =========================================================
 # AI CAMPAIGN ORCHESTRATOR
-# =========================================================
-#
-# Phase 1:
-#
-# Generates merchant campaign proposals.
-#
-# IMPORTANT:
-#
-# Phase 1 ONLY creates campaign proposals.
-#
-# It does NOT:
-# - activate campaigns
-# - modify product prices
-# - apply discounts
-# - create orders
-# - create payments
-# - move money
-#
-# Future phases:
-#
-# Phase 2 → Policy + Margin Engine
-# Phase 3 → Merchant Approval
-# Phase 4 → Audit Trail
-# Phase 5 → Graceful Rejection
-# Phase 6 → Upsell/Cross-sell Integration
-#
-# Endpoints:
-#
-# POST /campaigns/
-# GET  /campaigns/
-# GET  /campaigns/{campaign_id}
-# DELETE /campaigns/{campaign_id}
-#
 # =========================================================
 
 from app.routes.campaign import (
@@ -335,9 +224,6 @@ from app.routes.campaign import (
 # =========================================================
 #
 # All models must be imported before create_all().
-#
-# Campaign is imported above so SQLAlchemy also creates
-# the campaigns table.
 #
 # =========================================================
 
@@ -366,16 +252,22 @@ app = FastAPI(
 # CORS
 # =========================================================
 #
-# Frontend:
-#
-# Vite / React
+# LOCAL FRONTEND:
 # http://localhost:5173
+# http://127.0.0.1:5173
+#
+# PRODUCTION FRONTEND:
+# https://paypilot-ai-commerce-copilot.vercel.app
 #
 # =========================================================
 
 ALLOWED_ORIGINS = [
+    # Local development
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+
+    # Production - Vercel
+    "https://paypilot-ai-commerce-copilot.vercel.app",
 ]
 
 
@@ -392,7 +284,6 @@ app.add_middleware(
 # =========================================================
 # REGISTER ROUTES
 # =========================================================
-
 
 # ---------------------------------------------------------
 # Product API
@@ -496,16 +387,6 @@ app.include_router(
 # ---------------------------------------------------------
 # Risk Evaluation
 # ---------------------------------------------------------
-#
-# Payment/order risk evaluation.
-#
-# POST:
-# /risk-evaluations/{order_id}
-#
-# GET:
-# /risk-evaluations/{order_id}
-#
-# ---------------------------------------------------------
 
 app.include_router(
     risk_evaluation_router
@@ -559,11 +440,6 @@ app.include_router(
 
 # ---------------------------------------------------------
 # AI Campaign Orchestrator
-# ---------------------------------------------------------
-#
-# Phase 1:
-# Campaign proposal generation and management.
-#
 # ---------------------------------------------------------
 
 app.include_router(

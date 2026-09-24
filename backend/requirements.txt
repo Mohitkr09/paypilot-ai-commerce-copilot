@@ -15,3 +15,7 @@ google-generativeai
 python-multipart
 langgraph
 google-genai
+
+
+
+postgresql://paypilot_user:8xmYZBE7KtXGaaDZNIm6tSxAAaDwDweR@dpg-daqjcre7bikc738o07cg-a/paypilot_kq3g
