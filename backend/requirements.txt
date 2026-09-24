@@ -13,3 +13,4 @@ python-jose[cryptography]
 passlib[bcrypt]
 google-generativeai
 python-multipart
+langgraph
