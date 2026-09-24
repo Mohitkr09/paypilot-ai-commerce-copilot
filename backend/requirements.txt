@@ -17,6 +17,6 @@ python-jose[cryptography]
 
 passlib[bcrypt]
 
-google-generativeai
+google-genai
 
 python-multipart
