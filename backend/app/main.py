@@ -504,3 +504,109 @@ def cors_test():
         "status": "cors_ok",
         "message": "CORS middleware is active",
     }
+
+    # =========================================================
+# DEBUG CATALOG
+# =========================================================
+#
+# Temporary endpoint to verify that the Render PostgreSQL
+# database contains merchants and products.
+#
+# IMPORTANT:
+# This endpoint is only for deployment/database debugging.
+#
+# =========================================================
+
+@app.get("/debug/catalog")
+def debug_catalog():
+
+    from app.db.database import SessionLocal
+    from app.models import Merchant, Product
+
+    db = SessionLocal()
+
+    try:
+
+        # -------------------------------------------------
+        # Fetch merchants
+        # -------------------------------------------------
+
+        merchants = db.query(Merchant).all()
+
+        # -------------------------------------------------
+        # Fetch products
+        # -------------------------------------------------
+
+        products = db.query(Product).all()
+
+        # -------------------------------------------------
+        # Return database information
+        # -------------------------------------------------
+
+        return {
+            "status": "success",
+
+            "merchant_count": len(merchants),
+
+            "product_count": len(products),
+
+            "merchants": [
+                {
+                    "id": merchant.id,
+                    "name": getattr(
+                        merchant,
+                        "name",
+                        None
+                    ),
+                }
+                for merchant in merchants
+            ],
+
+            "products": [
+                {
+                    "id": product.id,
+
+                    "name": getattr(
+                        product,
+                        "name",
+                        None
+                    ),
+
+                    "price": getattr(
+                        product,
+                        "price",
+                        None
+                    ),
+
+                    "stock": getattr(
+                        product,
+                        "stock",
+                        None
+                    ),
+
+                    "is_active": getattr(
+                        product,
+                        "is_active",
+                        None
+                    ),
+
+                    "merchant_id": getattr(
+                        product,
+                        "merchant_id",
+                        None
+                    ),
+                }
+                for product in products
+            ],
+        }
+
+    except Exception as e:
+
+        return {
+            "status": "error",
+            "message": str(e),
+        }
+
+    finally:
+
+        db.close()
