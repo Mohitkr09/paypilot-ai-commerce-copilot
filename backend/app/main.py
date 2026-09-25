@@ -1,43 +1,56 @@
+# =========================================================
+# ENVIRONMENT VARIABLES
+# =========================================================
+
 from dotenv import load_dotenv
 
+load_dotenv()
+
+
 # =========================================================
-# LOAD ENVIRONMENT VARIABLES
-# =========================================================
-#
-# Loads variables from backend/.env
-#
-# Render environment variables will also be available
-# automatically in production.
-#
+# STANDARD LIBRARY
 # =========================================================
 
-load_dotenv()
+import os
+from datetime import datetime
+from typing import Any
 
 
 # =========================================================
 # FASTAPI
 # =========================================================
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+
+
+# =========================================================
+# PYDANTIC
+# =========================================================
+
+from pydantic import BaseModel
+
+
+# =========================================================
+# SQLALCHEMY
+# =========================================================
+
+from sqlalchemy import text
 
 
 # =========================================================
 # DATABASE
 # =========================================================
 
-from app.db.database import Base, engine
+from app.db.database import (
+    Base,
+    engine,
+    SessionLocal,
+)
 
 
 # =========================================================
 # MODELS
-# =========================================================
-#
-# IMPORTANT:
-#
-# Import every model before create_all().
-# This ensures SQLAlchemy knows about every table.
-#
 # =========================================================
 
 from app.models import (
@@ -57,163 +70,92 @@ from app.models import (
 # ROUTES
 # =========================================================
 
-# ---------------------------------------------------------
 # Product API
-# ---------------------------------------------------------
-
 from app.api.product import (
     router as product_router,
 )
 
-
-# ---------------------------------------------------------
 # Authentication
-# ---------------------------------------------------------
-
 from app.routes.auth import (
     router as auth_router,
 )
 
-
-# ---------------------------------------------------------
 # Product CRUD
-# ---------------------------------------------------------
-
 from app.routes.product import (
     router as product_crud_router,
 )
 
-
-# ---------------------------------------------------------
 # Merchant
-# ---------------------------------------------------------
-
 from app.routes.merchant import (
     router as merchant_router,
 )
 
-
-# ---------------------------------------------------------
 # Policy
-# ---------------------------------------------------------
-
 from app.routes.policy import (
     router as policy_router,
 )
 
-
-# ---------------------------------------------------------
 # Offers
-# ---------------------------------------------------------
-
 from app.routes.offer import (
     router as offer_router,
 )
 
-
-# ---------------------------------------------------------
 # Orders
-# ---------------------------------------------------------
-
 from app.routes.order import (
     router as order_router,
 )
 
-
-# ---------------------------------------------------------
 # Payments
-# ---------------------------------------------------------
-
 from app.routes.payments import (
     router as payment_router,
 )
 
-
-# ---------------------------------------------------------
 # Manual Reviews
-# ---------------------------------------------------------
-
 from app.routes.manual_review import (
     router as manual_review_router,
 )
 
-
-# ---------------------------------------------------------
 # Settings
-# ---------------------------------------------------------
-
 from app.routes.settings import (
     router as settings_router,
 )
 
-
-# ---------------------------------------------------------
 # Risk Analytics
-# ---------------------------------------------------------
-
 from app.routes.risk_analytics import (
     router as risk_analytics_router,
 )
 
-
-# ---------------------------------------------------------
 # Risk Evaluation
-# ---------------------------------------------------------
-
 from app.routes.risk_evaluation import (
     router as risk_evaluation_router,
 )
 
-
-# ---------------------------------------------------------
 # Audit Logs
-# ---------------------------------------------------------
-
 from app.routes.audit_log import (
     router as audit_log_router,
 )
 
-
-# ---------------------------------------------------------
 # Real-Time Events
-# ---------------------------------------------------------
-
 from app.routes.events import (
     router as events_router,
 )
 
-
-# =========================================================
-# ANALYTICS
-# =========================================================
-
+# Analytics
 from app.routes.analytics import (
     router as analytics_router,
 )
 
-
-# =========================================================
-# AI COMMERCE AGENT
-# =========================================================
-
+# AI Commerce Agent
 from app.routes.commerce import (
     router as commerce_router,
 )
 
-
-# =========================================================
-# AI ORDER / PAYPILOT AGENT
-# =========================================================
-
+# AI Order / PayPilot Agent
 from app.routes.agent import (
     router as agent_router,
 )
 
-
-# =========================================================
-# AI CAMPAIGN ORCHESTRATOR
-# =========================================================
-
+# AI Campaign Orchestrator
 from app.routes.campaign import (
     router as campaign_router,
 )
@@ -221,10 +163,6 @@ from app.routes.campaign import (
 
 # =========================================================
 # DATABASE INITIALIZATION
-# =========================================================
-#
-# All models must be imported before create_all().
-#
 # =========================================================
 
 Base.metadata.create_all(
@@ -251,15 +189,6 @@ app = FastAPI(
 # =========================================================
 # CORS
 # =========================================================
-#
-# LOCAL FRONTEND:
-# http://localhost:5173
-# http://127.0.0.1:5173
-#
-# PRODUCTION FRONTEND:
-# https://paypilot-ai-commerce-copilot.vercel.app
-#
-# =========================================================
 
 ALLOWED_ORIGINS = [
     # Local development
@@ -285,163 +214,92 @@ app.add_middleware(
 # REGISTER ROUTES
 # =========================================================
 
-# ---------------------------------------------------------
 # Product API
-# ---------------------------------------------------------
-
 app.include_router(
     product_router
 )
 
-
-# ---------------------------------------------------------
 # Product CRUD
-# ---------------------------------------------------------
-
 app.include_router(
     product_crud_router
 )
 
-
-# ---------------------------------------------------------
 # Merchant
-# ---------------------------------------------------------
-
 app.include_router(
     merchant_router
 )
 
-
-# ---------------------------------------------------------
 # Policy
-# ---------------------------------------------------------
-
 app.include_router(
     policy_router
 )
 
-
-# ---------------------------------------------------------
 # Offers
-# ---------------------------------------------------------
-
 app.include_router(
     offer_router
 )
 
-
-# ---------------------------------------------------------
 # Orders
-# ---------------------------------------------------------
-
 app.include_router(
     order_router
 )
 
-
-# ---------------------------------------------------------
 # Payments
-# ---------------------------------------------------------
-
 app.include_router(
     payment_router
 )
 
-
-# ---------------------------------------------------------
 # Manual Reviews
-# ---------------------------------------------------------
-
 app.include_router(
     manual_review_router
 )
 
-
-# ---------------------------------------------------------
 # Settings
-# ---------------------------------------------------------
-
 app.include_router(
     settings_router
 )
 
-
-# ---------------------------------------------------------
 # Authentication
-# ---------------------------------------------------------
-
 app.include_router(
     auth_router
 )
 
-
-# ---------------------------------------------------------
 # Risk Analytics
-# ---------------------------------------------------------
-
 app.include_router(
     risk_analytics_router
 )
 
-
-# ---------------------------------------------------------
 # Risk Evaluation
-# ---------------------------------------------------------
-
 app.include_router(
     risk_evaluation_router
 )
 
-
-# ---------------------------------------------------------
 # Audit Logs
-# ---------------------------------------------------------
-
 app.include_router(
     audit_log_router
 )
 
-
-# ---------------------------------------------------------
 # Real-Time SSE Events
-# ---------------------------------------------------------
-
 app.include_router(
     events_router
 )
 
-
-# ---------------------------------------------------------
 # Analytics
-# ---------------------------------------------------------
-
 app.include_router(
     analytics_router
 )
 
-
-# ---------------------------------------------------------
 # AI Commerce Agent
-# ---------------------------------------------------------
-
 app.include_router(
     commerce_router
 )
 
-
-# ---------------------------------------------------------
 # AI Order / PayPilot Agent
-# ---------------------------------------------------------
-
 app.include_router(
     agent_router
 )
 
-
-# ---------------------------------------------------------
 # AI Campaign Orchestrator
-# ---------------------------------------------------------
-
 app.include_router(
     campaign_router
 )
@@ -505,23 +363,25 @@ def cors_test():
         "message": "CORS middleware is active",
     }
 
-    # =========================================================
+
+# =========================================================
 # DEBUG CATALOG
 # =========================================================
 #
-# Temporary endpoint to verify that the Render PostgreSQL
-# database contains merchants and products.
+# Temporary endpoint used to inspect the Render database.
 #
-# IMPORTANT:
-# This endpoint is only for deployment/database debugging.
+# It shows:
+# - merchants
+# - merchant policies
+# - products
+# - stock
+# - product status
 #
+# Remove this endpoint after deployment/debugging is complete.
 # =========================================================
 
 @app.get("/debug/catalog")
 def debug_catalog():
-
-    from app.db.database import SessionLocal
-    from app.models import Merchant, Product
 
     db = SessionLocal()
 
@@ -546,19 +406,61 @@ def debug_catalog():
         return {
             "status": "success",
 
-            "merchant_count": len(merchants),
+            "merchant_count": len(
+                merchants
+            ),
 
-            "product_count": len(products),
+            "product_count": len(
+                products
+            ),
 
             "merchants": [
                 {
                     "id": merchant.id,
+
                     "name": getattr(
                         merchant,
                         "name",
-                        None
+                        None,
+                    ),
+
+                    "email": getattr(
+                        merchant,
+                        "email",
+                        None,
+                    ),
+
+                    "maximum_discount_percent": getattr(
+                        merchant,
+                        "maximum_discount_percent",
+                        None,
+                    ),
+
+                    "minimum_margin": getattr(
+                        merchant,
+                        "minimum_margin",
+                        None,
+                    ),
+
+                    "auto_payment_limit": getattr(
+                        merchant,
+                        "auto_payment_limit",
+                        None,
+                    ),
+
+                    "bundle_allowed": getattr(
+                        merchant,
+                        "bundle_allowed",
+                        None,
+                    ),
+
+                    "is_active": getattr(
+                        merchant,
+                        "is_active",
+                        None,
                     ),
                 }
+
                 for merchant in merchants
             ],
 
@@ -569,33 +471,65 @@ def debug_catalog():
                     "name": getattr(
                         product,
                         "name",
-                        None
+                        None,
                     ),
 
                     "price": getattr(
                         product,
                         "price",
-                        None
+                        None,
                     ),
 
+                    "cost_price": getattr(
+                        product,
+                        "cost_price",
+                        None,
+                    ),
+
+                    "category": getattr(
+                        product,
+                        "category",
+                        None,
+                    ),
+
+                    "description": getattr(
+                        product,
+                        "description",
+                        None,
+                    ),
+
+                    # Compatibility with older model versions
                     "stock": getattr(
                         product,
                         "stock",
-                        None
+                        None,
+                    ),
+
+                    "stock_quantity": getattr(
+                        product,
+                        "stock_quantity",
+                        None,
+                    ),
+
+                    "sku": getattr(
+                        product,
+                        "sku",
+                        None,
                     ),
 
                     "is_active": getattr(
                         product,
                         "is_active",
-                        None
+                        None,
                     ),
 
                     "merchant_id": getattr(
                         product,
                         "merchant_id",
-                        None
+                        None,
                     ),
                 }
+
                 for product in products
             ],
         }
@@ -606,6 +540,436 @@ def debug_catalog():
             "status": "error",
             "message": str(e),
         }
+
+    finally:
+
+        db.close()
+
+
+# =========================================================
+# CATALOG IMPORT SCHEMA
+# =========================================================
+
+class CatalogImportRequest(BaseModel):
+    """
+    Payload used for temporary local -> Render
+    catalog migration.
+
+    Only merchants and products are transferred.
+    """
+
+    merchants: list[dict[str, Any]]
+
+    products: list[dict[str, Any]]
+
+
+# =========================================================
+# DATETIME HELPER
+# =========================================================
+
+def parse_datetime(
+    value: Any,
+):
+    """
+    Convert ISO datetime strings into Python datetime objects.
+
+    Supports:
+    - None
+    - datetime
+    - ISO datetime string
+    """
+
+    if value is None:
+        return None
+
+    if isinstance(
+        value,
+        datetime,
+    ):
+        return value
+
+    if isinstance(
+        value,
+        str,
+    ):
+
+        try:
+
+            return datetime.fromisoformat(
+                value.replace(
+                    "Z",
+                    "+00:00",
+                )
+            )
+
+        except ValueError:
+
+            return None
+
+    return None
+
+
+# =========================================================
+# DEBUG IMPORT TOKEN
+# =========================================================
+#
+# Set this ONLY in Render Environment:
+#
+# DEBUG_IMPORT_TOKEN=your-secret
+#
+# Do NOT put the actual secret in this source code.
+# =========================================================
+
+DEBUG_IMPORT_TOKEN = os.getenv(
+    "DEBUG_IMPORT_TOKEN",
+    "",
+)
+
+
+# =========================================================
+# TEMPORARY CATALOG IMPORT
+# =========================================================
+#
+# Local transfer script sends:
+#
+# X-Import-Token: <same secret>
+#
+# After migration is complete:
+#
+# 1. Remove this endpoint.
+# 2. Remove DEBUG_IMPORT_TOKEN from Render.
+# =========================================================
+
+@app.post("/debug/import-catalog")
+def import_catalog(
+    data: CatalogImportRequest,
+
+    x_import_token: str | None = Header(
+        default=None,
+        alias="X-Import-Token",
+    ),
+):
+
+    # -----------------------------------------------------
+    # Check whether import feature is configured
+    # -----------------------------------------------------
+
+    if not DEBUG_IMPORT_TOKEN:
+
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "Catalog import is not configured."
+            ),
+        )
+
+    # -----------------------------------------------------
+    # Validate token
+    # -----------------------------------------------------
+
+    if (
+        not x_import_token
+        or x_import_token
+        != DEBUG_IMPORT_TOKEN
+    ):
+
+        raise HTTPException(
+            status_code=401,
+            detail=(
+                "Unauthorized catalog import request."
+            ),
+        )
+
+    # -----------------------------------------------------
+    # Create database session
+    # -----------------------------------------------------
+
+    db = SessionLocal()
+
+    try:
+
+        # =================================================
+        # CHECK EXISTING DATA
+        # =================================================
+
+        existing_merchants = (
+            db.query(Merchant).count()
+        )
+
+        existing_products = (
+            db.query(Product).count()
+        )
+
+        # -------------------------------------------------
+        # Prevent duplicate migration
+        # -------------------------------------------------
+
+        if (
+            existing_merchants > 0
+            or existing_products > 0
+        ):
+
+            return {
+                "status": "skipped",
+
+                "message": (
+                    "Render catalog already "
+                    "contains data. "
+                    "No records were imported."
+                ),
+
+                "merchant_count": (
+                    existing_merchants
+                ),
+
+                "product_count": (
+                    existing_products
+                ),
+            }
+
+        # =================================================
+        # INSERT MERCHANTS
+        # =================================================
+
+        merchant_count = 0
+
+        for merchant_data in data.merchants:
+
+            merchant = Merchant(
+
+                id=merchant_data[
+                    "id"
+                ],
+
+                name=merchant_data[
+                    "name"
+                ],
+
+                email=merchant_data[
+                    "email"
+                ],
+
+                password_hash=merchant_data.get(
+                    "password_hash"
+                ),
+
+                role=merchant_data.get(
+                    "role",
+                    "merchant",
+                ),
+
+                is_active=merchant_data.get(
+                    "is_active",
+                    True,
+                ),
+
+                maximum_discount_percent=merchant_data.get(
+                    "maximum_discount_percent",
+                    10.0,
+                ),
+
+                minimum_margin=merchant_data.get(
+                    "minimum_margin",
+                    300.0,
+                ),
+
+                auto_payment_limit=merchant_data.get(
+                    "auto_payment_limit",
+                    3000.0,
+                ),
+
+                bundle_allowed=merchant_data.get(
+                    "bundle_allowed",
+                    True,
+                ),
+
+                created_at=parse_datetime(
+                    merchant_data.get(
+                        "created_at"
+                    )
+                ),
+
+                updated_at=parse_datetime(
+                    merchant_data.get(
+                        "updated_at"
+                    )
+                ),
+            )
+
+            db.add(
+                merchant
+            )
+
+            merchant_count += 1
+
+        # -------------------------------------------------
+        # Flush merchants
+        # -------------------------------------------------
+
+        db.flush()
+
+        # =================================================
+        # INSERT PRODUCTS
+        # =================================================
+
+        product_count = 0
+
+        for product_data in data.products:
+
+            product = Product(
+
+                id=product_data[
+                    "id"
+                ],
+
+                merchant_id=product_data[
+                    "merchant_id"
+                ],
+
+                name=product_data[
+                    "name"
+                ],
+
+                category=product_data[
+                    "category"
+                ],
+
+                description=product_data.get(
+                    "description"
+                ),
+
+                price=product_data[
+                    "price"
+                ],
+
+                cost_price=product_data[
+                    "cost_price"
+                ],
+
+                stock_quantity=product_data.get(
+                    "stock_quantity",
+                    0,
+                ),
+
+                sku=product_data[
+                    "sku"
+                ],
+
+                is_active=product_data.get(
+                    "is_active",
+                    True,
+                ),
+            )
+
+            db.add(
+                product
+            )
+
+            product_count += 1
+
+        # -------------------------------------------------
+        # Flush products
+        # -------------------------------------------------
+
+        db.flush()
+
+        # =================================================
+        # RESET MERCHANT ID SEQUENCE
+        # =================================================
+        #
+        # We preserve the original IDs during migration.
+        # Therefore PostgreSQL's sequence needs to be
+        # moved to the current maximum ID.
+        # =================================================
+
+        db.execute(
+            text(
+                """
+                SELECT setval(
+                    pg_get_serial_sequence(
+                        'merchants',
+                        'id'
+                    ),
+                    COALESCE(
+                        (
+                            SELECT MAX(id)
+                            FROM merchants
+                        ),
+                        1
+                    ),
+                    true
+                )
+                """
+            )
+        )
+
+        # =================================================
+        # RESET PRODUCT ID SEQUENCE
+        # =================================================
+
+        db.execute(
+            text(
+                """
+                SELECT setval(
+                    pg_get_serial_sequence(
+                        'products',
+                        'id'
+                    ),
+                    COALESCE(
+                        (
+                            SELECT MAX(id)
+                            FROM products
+                        ),
+                        1
+                    ),
+                    true
+                )
+                """
+            )
+        )
+
+        # =================================================
+        # COMMIT
+        # =================================================
+
+        db.commit()
+
+        # =================================================
+        # SUCCESS RESPONSE
+        # =================================================
+
+        return {
+            "status": "success",
+
+            "message": (
+                "Catalog imported successfully."
+            ),
+
+            "merchant_count": (
+                merchant_count
+            ),
+
+            "product_count": (
+                product_count
+            ),
+        }
+
+    except Exception:
+
+        # -------------------------------------------------
+        # Rollback
+        # -------------------------------------------------
+
+        db.rollback()
+
+        raise HTTPException(
+            status_code=500,
+            detail=(
+                "Catalog import failed. "
+                "The database transaction "
+                "was rolled back."
+            ),
+        )
 
     finally:
 
