@@ -1,6 +1,7 @@
 fastapi
 uvicorn[standard]
 sqlalchemy
+psycopg[binary]
 psycopg2-binary
 pydantic
 pydantic-settings
@@ -15,6 +16,3 @@ google-generativeai
 python-multipart
 langgraph
 google-genai
-
-
-
